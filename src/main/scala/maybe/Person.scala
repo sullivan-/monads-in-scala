@@ -25,7 +25,6 @@ object Person {
 }
 
 case class Person(name: String) {
-
   def mother = Person.mother(this)
   def father = Person.father(this)
 }
