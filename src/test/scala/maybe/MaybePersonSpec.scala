@@ -2,7 +2,7 @@ package maybe
 
 import org.scalatest.FlatSpec
 
-class MaybeSpec extends FlatSpec {
+class MaybePersonSpec extends FlatSpec {
 
   behavior of "Maybe.flatMap"
   it should "propagate MaybeNots appropriately" in {
