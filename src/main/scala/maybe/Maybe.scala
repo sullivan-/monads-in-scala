@@ -12,7 +12,7 @@ sealed trait Maybe[+A] {
   def flatMap[B](f: A => Maybe[B]): Maybe[B]
 
   // >>
-  def map[B](f: A => B): Maybe[B] = flatMap { aa => Maybe(f(aa)) }
+  def map[B](f: A => B): Maybe[B] = flatMap { a => Maybe(f(a)) }
 }
 
 case class Just[+A](a: A) extends Maybe[A] {
