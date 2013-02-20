@@ -19,7 +19,7 @@ object Person {
   def father(p: Person): Maybe[Person] = relation(p, fathers)
 
   private def relation(p: Person, relationMap: Map[Person, Person]) = relationMap.get(p) match {
-    case Some(m) => Maybe(m)
+    case Some(m) => Just(m)
     case None => MaybeNot
   }
 }
