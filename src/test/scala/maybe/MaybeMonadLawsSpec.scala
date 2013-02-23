@@ -2,7 +2,7 @@ package maybe
 
 import org.scalatest.FlatSpec
 
-class MaybeMonadLawsSpecPersonSpec extends FlatSpec {
+class MaybeMonadLawsSpec extends FlatSpec {
 
   behavior of "Maybe monad"
   it should "obey monad laws with respect to the person data" in {
