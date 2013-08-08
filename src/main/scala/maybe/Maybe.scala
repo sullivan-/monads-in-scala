@@ -1,5 +1,13 @@
 package maybe
 
+object Maybe {
+
+  def apply[A](option: Option[A]): Maybe[A] = option match {
+    case Some(a) => Just(a)
+    case None => MaybeNot
+  }
+}
+
 sealed trait Maybe[+A] {
 
   // >>=

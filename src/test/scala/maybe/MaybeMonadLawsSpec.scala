@@ -1,55 +1,112 @@
 package maybe
 
 import org.scalatest.FlatSpec
+import org.scalatest.matchers.ShouldMatchers
 
-class MaybeMonadLawsSpec extends FlatSpec {
+/** Provides flat specs for the Maybe type obeying monad laws.
+  * 
+  * Sample data and methods for the objects to be contained within
+  * the Maybes are provided by the implementor by abstract method
+  * definitions.
+  */
+class MaybeMonadLawsSpec extends FlatSpec with ShouldMatchers {
 
-  behavior of "Maybe monad"
-  it should "obey monad laws with respect to the person data" in {
-    Person.persons foreach { p =>
+  maybeShouldObeyMonadLaws(
+    "Person data",
+    Person.persons,
+    { p: Person => p.mother },
+    { p: Person => p.father })
 
-      // left unit
-      assert((Just(p) flatMap { _.mother }) == p.mother)
+  maybeShouldObeyMonadLaws(
+    "safe math operations",
+    safe.doubles,
+    safe.safeSqrt _,
+    safe.safeLog _)
+
+  maybeShouldObeyMonadLaws(
+    "looking up Numbers and Registrations by Name",
+    lookup.names,
+    lookup.lookupNumber _,
+    lookup.lookupRegistration _)
+
+  maybeShouldObeyMonadLaws(
+    "looking up Registrations and TaxesOwed by Number",
+    lookup.numbers,
+    lookup.lookupRegistration _,
+    lookup.lookupTaxOwed _)
+
+  /** Runs FlatSpec tests against the provided test data and functions.
+    *
+    * @param testDataDescription a brief textual description of the test set
+    * @param testItems a list of test items of type A to iterate over
+    * @param f a test function from A to Maybe[B].
+    * @param g a test function from B to Maybe[C].
+    */
+  def maybeShouldObeyMonadLaws[A, B, C](
+    testDataDescription: String,
+    testItems: List[A],
+    f: Function1[A, Maybe[B]],
+    g: Function1[B, Maybe[C]]) {
+
+    behavior of "Maybe monad with respect to " + testDataDescription
+
+    it should "obey left unit monadic law" in {
+      testItems foreach { a =>
+        { Just(a) flatMap f
+        } should equal {
+          f(a)
+        }
+      }
     }
 
-    val maybes = MaybeNot +: (Person.persons map { Just(_) })
-    maybes foreach { m =>
+    val maybes = MaybeNot +: (testItems map { Just(_) })
 
-      // right unit
-      assert((m flatMap { Just(_) }) == m)
-
-      // associativity
-      assert(
-        (m flatMap { _.mother } flatMap { _.father }) ==
-        (m flatMap { _.mother flatMap { _.father } }))
-    }
-  }
-
-  behavior of "Maybe.flatten"
-  it should "flatten a Maybe[Maybe[_]] according to monadic laws" in {
-
-    // will not compile:
-    // Just(1).flatten
-    // compiler error is:
-    // Cannot prove that maybe.Maybe[Int] <:< maybe.Maybe[maybe.Maybe[B]].
-
-    Person.persons foreach { p =>
-      assert(Just(Just(p)).flatten == Just(p))
+    it should "obey right unit monadic law" in {
+      maybes foreach { m =>
+        { m flatMap { Just(_) }
+        } should equal {
+          m
+        }
+      }
     }
 
-    assert(Just(MaybeNot).flatten == MaybeNot)
+    it should "obey associativity monadic law" in {
+      maybes foreach { m =>
+        { m flatMap f flatMap g
+        } should equal {
+          m flatMap { a => f(a) flatMap g }
+        }
+      }
+    }
 
-    assert(MaybeNot.flatten == MaybeNot)
-  }
+    it should "flatten a Maybe[Maybe[_]] according to monadic laws" in {
+      testItems foreach { a =>
+        { Just(Just(a)).flatten
+        } should equal {
+          Just(a)
+        }
+      }
 
-  behavior of "Maybe.flatMap"
-  it should "flatten a Maybe[Maybe[_]] according to monadic laws" in {
+      { Just(MaybeNot).flatten
+      } should equal {
+        MaybeNot
+      }
 
-    def altFlatMap(m: Maybe[Person], f: Person => Maybe[Person]): Maybe[Person] = m.map(f).flatten
+      { MaybeNot.flatten
+      } should equal {
+        MaybeNot
+      }
+    }
 
-    val maybes = MaybeNot +: (Person.persons map { Just(_) })
-    maybes foreach { m =>
-      assert(altFlatMap(m, _.mother) == (m flatMap { _.mother }))
-    }    
+    def altFlatMap(m: Maybe[A], a: A => Maybe[B]): Maybe[B] = m.map(a).flatten
+
+    it should "flatMap equivalently to calling map and then flatten" in {
+      maybes foreach { m =>
+        { altFlatMap(m, f)
+        } should equal {
+          m flatMap f
+        }
+      }
+    }
   }
 }
