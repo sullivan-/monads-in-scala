@@ -1,8 +1,9 @@
 package maybe
 
 import org.scalatest.FlatSpec
+import org.scalatest.matchers.ShouldMatchers
 
-class MaybePersonSpec extends FlatSpec {
+class MaybePersonSpec extends FlatSpec with ShouldMatchers {
 
   def maternalGrandfather(p: Person): Maybe[Person] =
     p.mother flatMap { _.father }
@@ -16,7 +17,7 @@ class MaybePersonSpec extends FlatSpec {
   behavior of "Maybe.flatMap"
   it should "propagate Maybes appropriately in maternalGrandfather example" in {
     Person.persons foreach { p =>
-      assert(maternalGrandfather(p) == maternalGrandfatherNoFlatMap(p))
+      maternalGrandfather(p) should equal (maternalGrandfatherNoFlatMap(p))
     }
   }
 
@@ -63,7 +64,7 @@ class MaybePersonSpec extends FlatSpec {
     bothGrandfathers1: Person => Maybe[(Person, Person)],
     bothGrandfathers2: Person => Maybe[(Person, Person)]) =
     Person.persons foreach { p =>
-      assert(bothGrandfathers1(p) == bothGrandfathers2(p))
+      bothGrandfathers1(p) should equal (bothGrandfathers2(p))
     }
 
   behavior of "Maybe.flatMap"
