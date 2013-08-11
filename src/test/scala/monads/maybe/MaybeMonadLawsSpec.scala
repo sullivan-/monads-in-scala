@@ -48,7 +48,7 @@ class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatc
     testDataDescription: String,
     testItems: Seq[A],
     f: Function1[A, Maybe[B]],
-    g: Function1[B, Maybe[C]]) {
+    g: Function1[B, Maybe[C]]): Unit = {
 
     val maybes = MaybeNot +: (testItems map { Just(_) })
 

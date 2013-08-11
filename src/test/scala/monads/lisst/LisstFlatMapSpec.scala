@@ -5,28 +5,24 @@ import org.scalatest.matchers.ShouldMatchers
 
 class LisstFlatMapSpec extends FlatSpec with ShouldMatchers {
 
-  def toEmpty(i: Int): Lisst[String] = Lisst()
-  def toString(i: Int): Lisst[String] = Lisst(i.toString)
-  def toThreeStrings(i: Int): Lisst[String] = {
-    val s = i.toString
-    Lisst(s, s, s)
-  }
-
-  val empty = Lisst[Int]()
-  val sizeThree = Lisst(1, 2, 3)
+  import testdata._
 
   behavior of "Lisst.flatMap"
   it should "apply f to each element in turn, and concatenate the results" in {
 
-    empty.flatMap(toEmpty) should equal (Lisst[String]())
-    empty.flatMap(toString) should equal (Lisst[String]())
-    empty.flatMap(toThreeStrings) should equal (Lisst[String]())
+    emptyIntLisst.flatMap(toZeroStrings) should equal { emptyStringLisst }
 
-    sizeThree.flatMap(toEmpty) should equal (Lisst[String]())
-    sizeThree.flatMap(toString) should equal {
+    emptyIntLisst.flatMap(toOneString) should equal { emptyStringLisst }
+
+    emptyIntLisst.flatMap(toThreeStrings) should equal { emptyStringLisst }
+
+    sizeThreeIntLisst.flatMap(toZeroStrings) should equal { emptyStringLisst }
+
+    sizeThreeIntLisst.flatMap(toOneString) should equal {
       Lisst("1", "2", "3")
     }
-    sizeThree.flatMap(toThreeStrings) should equal {
+
+    sizeThreeIntLisst.flatMap(toThreeStrings) should equal {
       Lisst("1", "1", "1", "2", "2", "2", "3", "3", "3")
     }
   }
