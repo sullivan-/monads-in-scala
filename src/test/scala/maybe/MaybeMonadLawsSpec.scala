@@ -40,9 +40,6 @@ class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatc
 
   /** Runs FlatSpec tests against the provided test data and functions.
     *
-    * @tparam A TODO
-    * @tparam B TODO
-    * @tparam C TODO
     * @param testDataDescription a brief textual description of the test set
     * @param testItems a list of test items of type A to iterate over
     * @param f a test function from A to Maybe[B].
@@ -50,26 +47,28 @@ class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatc
     */
   def maybeShouldObeyMonadLaws[A, B, C](
     testDataDescription: String,
-    testItems: List[A],
+    testItems: Seq[A],
     f: Function1[A, Maybe[B]],
     g: Function1[B, Maybe[C]]) {
-
-    class MaybeMonad extends Monad {
-      type M[A] = Maybe[A]
-      def unitFunction[A](a: A): M[A] = Just(a)
-      def bindingOperation[A, B](m: M[A], f: (A) => M[B]): M[B] = m flatMap f
-    }
 
     val maybes = MaybeNot +: (testItems map { Just(_) })
 
     monadShouldObeyMonadLaws[A, B, C](
       "Maybe",
-      new MaybeMonad())(
+      MaybeMonad)(
       testDataDescription,
       testItems,
       maybes,
       f,
       g)
+
+    maybeShouldFlatten(testDataDescription, testItems)
+    maybeShouldFlatMapLikeMapAndFlatten(testDataDescription, maybes, f)
+  }
+
+  private def maybeShouldFlatten[A](
+    testDataDescription: String,
+    testItems: Seq[A]): Unit = {
 
     behavior of "Maybe.flatten with respect to " + testDataDescription
     it should "flatten a Maybe[Maybe[A]] into a Maybe[A] appropriately" in {
@@ -90,6 +89,12 @@ class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatc
         MaybeNot
       }
     }
+  }
+
+  private def maybeShouldFlatMapLikeMapAndFlatten[A, B](
+    testDataDescription: String,
+    maybes: Seq[Maybe[A]],
+    f: Function1[A, Maybe[B]]): Unit = {
 
     def altFlatMap(m: Maybe[A], a: A => Maybe[B]): Maybe[B] = m.map(a).flatten
 
@@ -103,4 +108,5 @@ class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatc
       }
     }
   }
+
 }
