@@ -1,4 +1,4 @@
-package lisst
+package monads.lisst
 
 import scala.annotation.tailrec
 

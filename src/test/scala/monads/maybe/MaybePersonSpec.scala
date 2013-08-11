@@ -1,4 +1,4 @@
-package maybe
+package monads.maybe
 
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers

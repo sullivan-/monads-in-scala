@@ -1,4 +1,4 @@
-package lisst
+package monads.lisst
 
 import org.scalatest.FlatSpec
 import org.scalatest.matchers.ShouldMatchers

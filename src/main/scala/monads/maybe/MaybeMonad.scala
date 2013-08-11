@@ -1,4 +1,4 @@
-package maybe
+package monads.maybe
 
 import monads.Monad
 

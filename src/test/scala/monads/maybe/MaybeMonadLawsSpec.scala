@@ -1,6 +1,5 @@
-package maybe
+package monads.maybe
 
-import monads.Monad
 import monads.MonadLawsVerifier
 
 import org.scalatest.FlatSpec

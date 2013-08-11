@@ -1,4 +1,4 @@
-package maybe
+package monads.maybe
 
 object Maybe {
 
