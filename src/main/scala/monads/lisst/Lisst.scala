@@ -41,6 +41,18 @@ sealed trait Lisst[+A] {
   def flatten[B](implicit asLisstLisst: Lisst[A] <:< Lisst[Lisst[B]]): Lisst[B] = 
     asLisstLisst(this) flatMap identity
 
+  override def toString: String = {
+    val sb = new StringBuilder
+    sb.append("Lisst(")
+    foreach { a => sb.append(a).append(", ") }
+    this match {
+      case NonEmptyLisst(_, _) => sb.delete(sb.length - 2, sb.length)
+      case _ =>
+    }
+    sb.append(")")
+    sb.toString
+  }
+
 }
 
 private case class NonEmptyLisst[+A](
