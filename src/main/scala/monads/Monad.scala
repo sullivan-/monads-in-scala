@@ -2,7 +2,7 @@ package monads
 
 import scala.language.higherKinds
 
-abstract class Monad {
+trait Monad {
 
   type M[_]
 
