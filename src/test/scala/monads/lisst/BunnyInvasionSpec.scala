@@ -1,9 +1,9 @@
 package monads.lisst
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
-class BunnyInvasionSpec extends FlatSpec with ShouldMatchers {
+class BunnyInvasionSpec extends FlatSpec with Matchers {
   
   behavior of "Lisst.flatMap"
   it should "should produce generations as in the Haskell Bunny Invasion example" in {

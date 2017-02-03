@@ -1,9 +1,9 @@
 package monads.maybe
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
-class MaybePersonSpec extends FlatSpec with ShouldMatchers {
+class MaybePersonSpec extends FlatSpec with Matchers {
 
   def maternalGrandfather(p: Person): Maybe[Person] =
     p.mother flatMap { _.father }

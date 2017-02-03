@@ -2,13 +2,13 @@ package monads
 
 import scala.language.higherKinds
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
 /** Contains a method that verifies that a monad obeys the three monad laws described here:
   * http://en.wikibooks.org/wiki/Haskell/Understanding_monads#Monad_Laws
   */
 trait MonadLawsVerifier {
-  self: FlatSpec with ShouldMatchers =>
+  self: FlatSpec with Matchers =>
 
   /** Runs FlatSpec tests against the provided test data and functions.
     *

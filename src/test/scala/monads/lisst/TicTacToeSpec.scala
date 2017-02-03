@@ -1,11 +1,11 @@
 package monads.lisst
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
 import monads.lisst.tictactoe.Board
 
-class TicTacToeSpec extends FlatSpec with ShouldMatchers {
+class TicTacToeSpec extends FlatSpec with Matchers {
   
   behavior of "tictactoe.Board.nextConfigs"
   it should "should produce board configurations as in the Haskell Tic Tac Toe example" in {

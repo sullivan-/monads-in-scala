@@ -1,9 +1,9 @@
 package monads.maybe
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
-class SafeMathSpec extends FlatSpec with ShouldMatchers {
+class SafeMathSpec extends FlatSpec with Matchers {
 
   import safe._
 

@@ -1,9 +1,9 @@
 package monads.lisst
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
-class LisstFlatMapSpec extends FlatSpec with ShouldMatchers {
+class LisstFlatMapSpec extends FlatSpec with Matchers {
 
   import testdata._
 

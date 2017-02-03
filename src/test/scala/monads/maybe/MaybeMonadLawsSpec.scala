@@ -3,7 +3,7 @@ package monads.maybe
 import monads.MonadLawsVerifier
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
 /** Provides flat specs for the Maybe type obeying monad laws.
   * 
@@ -11,7 +11,7 @@ import org.scalatest.matchers.ShouldMatchers
   * the Maybes are provided by the implementor by abstract method
   * definitions.
   */
-class MaybeMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatchers {
+class MaybeMonadLawsSpec extends FlatSpec with MonadLawsVerifier with Matchers {
 
   maybeShouldObeyMonadLaws(
     "Person data",

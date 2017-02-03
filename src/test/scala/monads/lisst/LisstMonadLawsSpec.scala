@@ -3,9 +3,9 @@ package monads.lisst
 import monads.MonadLawsVerifier
 
 import org.scalatest.FlatSpec
-import org.scalatest.matchers.ShouldMatchers
+import org.scalatest.Matchers
 
-class LisstMonadLawsSpec extends MonadLawsVerifier with FlatSpec with ShouldMatchers {
+class LisstMonadLawsSpec extends FlatSpec with MonadLawsVerifier with Matchers {
 
   import testdata._
 
